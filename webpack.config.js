@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const isProduction = process.env.NODE_ENV === "production";
 
 const config = {
-    entry: "./src/index.js", // Точка входа для сборки проекта
+    entry: ["@babel/polyfill", "./src/index.js"], // Точка входа для сборки проекта
 
     output: {
         filename: "bundle.js", // Имя выходного файла сборки
@@ -38,6 +38,20 @@ const config = {
             {
                 test: /\.html$/i,
                 loader: "html-loader",
+            },
+            {
+                test: /\.(ts|js)x?$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: [
+                            "@babel/preset-env",
+                            "@babel/preset-react",
+                            "@babel/preset-typescript",
+                        ],
+                    },
+                },
             },
         ],
     },
