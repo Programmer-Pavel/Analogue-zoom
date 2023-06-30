@@ -1,9 +1,13 @@
 const path = require("path"); // Импортируем модуль "path" для работы с путями файлов
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const BundleAnalyzerPlugin =
+    require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+
 const isProduction = process.env.NODE_ENV === "production";
 
 const config = {
-    entry: ["@babel/polyfill", "./src/index.js"], // Точка входа для сборки проекта
+    entry: ["@babel/polyfill", "./src/index.tsx"], // Точка входа для сборки проекта
 
     output: {
         filename: "bundle.js", // Имя выходного файла сборки
@@ -11,6 +15,7 @@ const config = {
     },
 
     module: {
+        strictExportPresence: true, // Включаем строгий режим, чтобы попытка импортировать несуществующие объекты приводила к падению билда
         rules: [
             {
                 test: /\.(png|svg)$/i,
@@ -25,6 +30,10 @@ const config = {
                         options: {
                             importLoaders: 1,
                             modules: true,
+                            // esModule: true, // Говорим о том, что хотим использовать ES Modules
+                            // modules: {
+                            //     namedExport: true, // Указываем, что предпочитаем именованый экспорт дефолтному
+                            // },
                         },
                     },
                 ],
@@ -35,6 +44,20 @@ const config = {
                 use: ["style-loader", "css-loader"],
                 exclude: /\.module\.css$/,
             },
+            // {
+            //     test: /\.module.css$/,
+            //     use: [
+            //         "css-loader",
+            //         {
+            //             options: {
+            //                 esModule: true, // Говорим о том, что хотим использовать ES Modules
+            //                 modules: {
+            //                     namedExport: true, // Указываем, что предпочитаем именованый экспорт дефолтному
+            //                 },
+            //             },
+            //         },
+            //     ],
+            // },
             {
                 test: /\.html$/i,
                 loader: "html-loader",
@@ -56,10 +79,26 @@ const config = {
         ],
     },
 
+    resolve: {
+        extensions: [".tsx", ".ts", ".js"],
+    },
+
     plugins: [
         new HtmlWebpackPlugin({
             template: "./src/index.html",
         }),
+        new ForkTsCheckerWebpackPlugin({
+            typescript: {
+                diagnosticOptions: {
+                    semantic: true,
+                    syntactic: true,
+                },
+                mode: "write-references",
+            },
+        }),
+        // new BundleAnalyzerPlugin({
+        //     generateStatsFile: true,
+        // }),
     ],
 
     devServer: {
