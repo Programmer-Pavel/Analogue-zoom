@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Modal.module.css";
+import styles from "./Modal.module.scss";
 
 interface ModalProps {
     isShow: boolean;
@@ -10,7 +10,7 @@ export const Modal = ({ isShow, setIsShow }: ModalProps) => {
     return (
         <>
             <div className={`${styles.modal} ${isShow && styles.modal_show}`}>
-                <div className={styles.modal__content}>
+                <div>
                     Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                     Ipsum adipisci similique fugiat dolor. Itaque tenetur
                     debitis rem amet numquam ducimus repellat voluptate dolorem
