@@ -1,6 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import { Modal } from "./components/Modal";
+import { Clock } from "./components/clock/Clock";
 
 export const App = () => {
     const [isShow, setIsShow] = useState<boolean>(false);
@@ -16,6 +17,8 @@ export const App = () => {
                 cum iste. Fugit, odit voluptatum tempora non qui pariatur unde
                 harum! Pariatur?
             </div>
+
+            <Clock />
         </>
     );
 };
