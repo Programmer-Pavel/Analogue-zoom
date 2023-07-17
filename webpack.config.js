@@ -151,7 +151,7 @@ const config = {
 
     devServer: {
         static: {
-            directory: path.join(__dirname, "dist"), // Каталог для статики
+            directory: path.join(__dirname, "build"), // Каталог для статики
         },
         open: true, // Автоматически открывать браузер
         client: {
