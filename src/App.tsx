@@ -11,7 +11,7 @@ export const App = () => {
             <button onClick={() => setIsShow(true)}>show modal</button>
             <Modal isShow={isShow} setIsShow={setIsShow} />
 
-            <div style={{ background: "red" }}>
+            <div style={{ background: "blue" }}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
                 minima maiores ipsa quod fugit autem quis laudantium molestias
                 cum iste. Fugit, odit voluptatum tempora non qui pariatur unde
