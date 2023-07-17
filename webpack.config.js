@@ -154,6 +154,12 @@ const config = {
             directory: path.join(__dirname, "dist"), // Каталог для статики
         },
         open: true, // Автоматически открывать браузер
+        client: {
+            overlay: {
+                errors: true,
+                warnings: false,
+            },
+        },
     },
 
     mode: "development", // Режим сборки
