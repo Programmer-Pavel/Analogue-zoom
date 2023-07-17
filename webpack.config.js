@@ -14,7 +14,7 @@ const config = {
 
     output: {
         filename: "[name].[contenthash].js", // Имя выходного файла сборки
-        path: path.resolve(__dirname, "dist"), // Путь для выходного файла сборки
+        path: path.resolve(__dirname, "build"), // Путь для выходного файла сборки
     },
 
     module: {
