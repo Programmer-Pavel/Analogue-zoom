@@ -2,6 +2,7 @@ import { useState } from "react";
 import React from "react";
 import { Modal } from "./components/Modal";
 import { Clock } from "./components/clock/Clock";
+import { GradientRoundedBorder } from "./components/gradient-rounded-border/GradientRoundedBorder";
 
 export const App = () => {
     const [isShow, setIsShow] = useState<boolean>(false);
@@ -19,6 +20,8 @@ export const App = () => {
             </div>
 
             <Clock />
+
+            <GradientRoundedBorder />
         </>
     );
 };

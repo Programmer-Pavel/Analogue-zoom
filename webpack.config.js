@@ -3,18 +3,18 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const BundleAnalyzerPlugin =
-    require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
-// const devMode = process.env.NODE_ENV !== "production";
-const devMode = false;
+const devMode = process.env.NODE_ENV !== "production";
 
 const config = {
     entry: ["@babel/polyfill", "./src/index.tsx"], // Точка входа для сборки проекта
 
     output: {
-        filename: "[name].[contenthash].js", // Имя выходного файла сборки
+        filename: devMode ? "[name].js" : "[name].[contenthash].js", // Имя выходного файла сборки
         path: path.resolve(__dirname, "build"), // Путь для выходного файла сборки
+        clean: true,
     },
 
     module: {
@@ -44,10 +44,6 @@ const config = {
                             modules: {
                                 localIdentName: "[local]--[hash:base64:5]",
                             },
-                            // esModule: true, // Говорим о том, что хотим использовать ES Modules
-                            // modules: {
-                            //     namedExport: true, // Указываем, что предпочитаем именованый экспорт дефолтному
-                            // },
                         },
                     },
                     {
@@ -84,20 +80,6 @@ const config = {
                 ],
                 exclude: /\.module\.(c|sa|sc)ss$/,
             },
-            // {
-            //     test: /\.module.css$/,
-            //     use: [
-            //         "css-loader",
-            //         {
-            //             options: {
-            //                 esModule: true, // Говорим о том, что хотим использовать ES Modules
-            //                 modules: {
-            //                     namedExport: true, // Указываем, что предпочитаем именованый экспорт дефолтному
-            //                 },
-            //             },
-            //         },
-            //     ],
-            // },
             {
                 test: /\.html$/i,
                 loader: "html-loader",
@@ -120,7 +102,18 @@ const config = {
     },
 
     optimization: {
-        minimizer: [new CssMinimizerPlugin()],
+        minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    chunks: "all",
+                },
+            },
+        },
+        runtimeChunk: "single",
+        moduleIds: "deterministic",
     },
 
     resolve: {
@@ -144,9 +137,14 @@ const config = {
             filename: devMode ? "[name].css" : "[name].[contenthash].css",
             chunkFilename: devMode ? "[id].css" : "[id].[contenthash].css",
         }),
-        // new BundleAnalyzerPlugin({
-        //     generateStatsFile: true,
-        // }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, "src/assets"),
+                    to: path.resolve(__dirname, "build/assets"),
+                },
+            ],
+        }),
     ],
 
     devServer: {
@@ -161,13 +159,12 @@ const config = {
             },
         },
     },
-
-    mode: "development", // Режим сборки
 };
 
 module.exports = () => {
     if (devMode) {
         config.mode = "development";
+        config.devtool = "source-map";
     } else {
         config.mode = "production";
     }
