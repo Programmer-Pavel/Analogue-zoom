@@ -5,7 +5,9 @@
     "private": true,
     "scripts": {
         "dev": "webpack serve --node-env development",
-        "build": "webpack --analyze --node-env production"
+        "build": "webpack --node-env production",
+        "build-stats": "npm run build -- --stats",
+        "run-webpack-bundle-analyzer": "webpack-bundle-analyzer ./dist/stats.json"
     },
     "keywords": [],
     "author": "",
