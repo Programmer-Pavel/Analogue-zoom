@@ -3,13 +3,18 @@ import React from "react";
 import { Modal } from "./components/Modal";
 import { Clock } from "./components/clock/Clock";
 import { GradientRoundedBorder } from "./components/gradient-rounded-border/GradientRoundedBorder";
+import { Typography } from "@mui/material";
+import { VideoPlayer } from "./components/VideoPlayer";
+import { ContextProvider } from '../SocketContext'
 
 export const App = () => {
-    const [isShow, setIsShow] = useState<boolean>(false);
+  // const [isShow, setIsShow] = useState<boolean>(false);
 
-    return (
-        <>
-            <button onClick={() => setIsShow(true)}>show modal</button>
+  return (
+    <ContextProvider>
+      <VideoPlayer />
+     
+      {/* <button onClick={() => setIsShow(true)}>show modal</button>
             <Modal isShow={isShow} setIsShow={setIsShow} />
 
             <div style={{ background: "blue" }}>
@@ -21,7 +26,7 @@ export const App = () => {
 
             <Clock />
 
-            <GradientRoundedBorder />
-        </>
-    );
+            <GradientRoundedBorder /> */}
+    </ContextProvider>
+  );
 };
