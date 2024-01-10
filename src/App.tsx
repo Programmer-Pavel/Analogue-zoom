@@ -1,108 +1,208 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import React from "react";
-// import { Modal } from "./components/Modal";
-// import { Clock } from "./components/clock/Clock";
-// import { GradientRoundedBorder } from "./components/gradient-rounded-border/GradientRoundedBorder";
-// import { Typography } from "@mui/material";
-// import { VideoPlayer } from "./components/VideoPlayer";
-// import { ContextProvider } from "../SocketContext";
 import { socket } from "../socket";
-import { ConnectionState } from "./components/ConnectionState";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Tab,
+  Tabs,
+  TextField,
+} from "@mui/material";
 import { Chat } from "./components/chat/Chat";
 
 export const App = () => {
-  const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [users, setUsers] = useState<string[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [value, setValue] = useState<string>('');
+  const [usernameAlreadySelected, setUsernameAlreadySelected] = useState(false);
+  const [nameInputValue, setNameInputValue] = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-    function onConnect() {
-      setIsConnected(true);
-    }
+    setValue(users[0]?.userID)
+  }, [users])
 
-    function onDisconnect() {
-      setIsConnected(false);
-    }
-
+  useEffect(() => {
     const sessionID = localStorage.getItem("sessionID");
 
     if (sessionID) {
+      setUsernameAlreadySelected(true);
       socket.auth = { sessionID };
       socket.connect();
     }
 
-    function sessionSet({ sessionID, userID }: any) {
+    socket.on("session", ({ sessionID, userID }) => {
+      // attach the session ID to the next reconnection attempts
       socket.auth = { sessionID };
+      // store it in the localStorage
       localStorage.setItem("sessionID", sessionID);
-      // @ts-expect-error fix it
-      socket["userID"] = userID;
-    }
+      // save the ID of the user
+      // @ts-expect-error fix
+      socket.userID = userID;
+    });
 
-    function getUsers(users: string[]) {
-      setUsers(users)
-    }
+    socket.on("users", (usersList: any) => {
+      const changedData = usersList.map((user: any) => {
+        // const userMessages = user?.messages?.map((message: any) => {
+        //   return {
+        //     ...message,
+        //       // @ts-expect-error fix
+        //     fromSelf: message?.from === socket.userID,
+        //   }
+        // });
 
+        return {
+          ...user,
+          // messages: userMessages,
+           // @ts-expect-error fix
+          self: user.userID === socket.userID,
+          // hasNewMessages: false
+        }
+      })
 
-    socket.on("session", sessionSet);
-    socket.on("users", getUsers);
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
+      changedData.sort((a: any, b: any) => {
+        if (a.self) return -1;
+        if (b.self) return 1;
+        if (a.username < b.username) return -1;
+        return a.username > b.username ? 1 : 0;
+      });
+
+      setUsers(changedData);
+    });
+
+    socket.on("user connected", (user) => {
+      const tt = users?.find((item) => item.userID === user.userID)
+
+      if(tt) {
+        const te = users?.map((item) => {
+          if(tt.userID === item.userID) {
+            return {
+              ...item,
+              connected: true
+            }
+          }
+          return item
+        })
+        setUsers(te);
+      } else {
+        setUsers([...users, user]);
+      }
+    });
+
+    socket.on("connect_error", (err) => {
+      if (err.message === "invalid username") {
+        setUsernameAlreadySelected(false);
+      }
+    });
+
+    socket.on("user disconnected", (id) => {
+      const changedData = users.map((item) => {
+        if(item.userID === id) {
+          return {
+            ...item,
+            connected: false
+          }
+        }
+        return item
+      })
+      setUsers(changedData);
+    });
+
+    socket.on("disconnect", () => {
+      const changedUsers = users.map((user: any) => {
+        if (user.self) {
+          return {
+            ...user,
+            connected: false,
+          };
+        }
+        return user;
+      });
+      setUsers(changedUsers);
+    });
 
     return () => {
-      socket.off("connect", onConnect);
-      socket.off("session", sessionSet);
-      socket.off("users", getUsers);
-      socket.off("disconnect", onDisconnect);
+      socket.off("connect_error");
+      socket.off("session");
+      socket.off("users");
+      socket.off("disconnect");
+      socket.off("user disconnected");
+      socket.off("user connected");
     };
-  }, []);
+  }, [socket, users]);
 
-  const onConnectBtn = () => {
+  const onUsernameSelection = () => {
+    setUsernameAlreadySelected(true);
+    socket.auth = { username: nameInputValue };
     socket.connect();
   };
 
-  const onDisConnectBtn = () => {
-    socket.disconnect();
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+    const currentUser = users.find((el) => String(el?.userID) === newValue)
+    setSelectedUser(currentUser);
   };
 
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ width: '300px', background: 'gray' }}>
-        {
-          users.map(el => <div>{el}</div>)
-        }
-      </div>
-      <div>
-        <button onClick={onConnectBtn}>connect</button>
-        <button onClick={onDisConnectBtn}>disconnect</button>
-        <ConnectionState isConnected={isConnected} />
-        <Chat />
-      </div>
-    </div>
+    <Box
+      display="flex"
+      height="100%"
+      width='100%'
+    >
+      {usernameAlreadySelected ? (
+        <>
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={value}
+            onChange={handleChange}
+            aria-label="Vertical tabs example"
+            sx={{ width: '25%', height: '100%', borderRight: 1, borderColor: "divider"}}
+          >
+            {users.map((el) => (
+              <Tab
+                value={`${el?.userID}`}
+                key={el?.userID}
+                label={
+                  <Box 
+                    display='flex'
+                    alignItems='center'
+                    gap='8px'
+                    whiteSpace='nowrap'
+                    color='black'
+                  >
+                    {el?.username} {el?.self ? '(свой)': ''}
+                    <Box component='div' width='8px' height='8px' bgcolor={el?.connected ? 'green' : 'red'} borderRadius='50%' />
+                  </Box>
+                }
+              />
+            ))}
+          </Tabs>
+
+          <Box display='flex' flexDirection='column' justifyContent='space-between' p='10px'>
+            dwad
+            {/* <Chat users={users} setUsers={setUsers} selectedUser={selectedUser} setSelectedUser={setSelectedUser}/> */}
+          </Box>
+        </>
+      ) : (
+        <Card sx={{ minWidth: 275 }}>
+          <CardContent>
+            <TextField
+              id="name"
+              label="Name"
+              variant="outlined"
+              size="small"
+              sx={{ mb: 3 }}
+              value={nameInputValue}
+              onChange={(e) => setNameInputValue(e.target.value)}
+            />
+            <Button variant="outlined" onClick={onUsernameSelection}>
+              send
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+    </Box>
   );
 };
-
-{
-  /* <Events events={ fooEvents } />
-      <ConnectionManager />
-      <MyForm /> */
-}
-
-{
-  /* <VideoPlayer /> */
-}
-
-{
-  /* <button onClick={() => setIsShow(true)}>show modal</button>
-            <Modal isShow={isShow} setIsShow={setIsShow} />
-
-            <div style={{ background: "blue" }}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-                minima maiores ipsa quod fugit autem quis laudantium molestias
-                cum iste. Fugit, odit voluptatum tempora non qui pariatur unde
-                harum! Pariatur?
-            </div>
-
-            <Clock />
-
-            <GradientRoundedBorder /> */
-}
-// </ContextProvider>
