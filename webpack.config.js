@@ -119,6 +119,9 @@ const config = {
 
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    // alias: {
+    //   '@src': path.resolve('src/**'),
+    // },
   },
 
   plugins: [

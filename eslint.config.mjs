@@ -4,4 +4,9 @@ export default antfu(
   {
     react: true,
   },
+  {
+    rules: {
+      'no-console': 'warn',
+    },
+  },
 )
