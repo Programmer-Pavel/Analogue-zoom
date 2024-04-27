@@ -2,14 +2,7 @@ import { createRoot } from 'react-dom/client'
 import React from 'react'
 import './index.css'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import ru from 'react-timeago/lib/language-strings/ru'
-import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 import { App } from './App'
-
-// @ts-expect-error fix
-// @ts-expect-error fix
-
-buildFormatter(ru)
 
 const rootElement = document.getElementById('root')
 

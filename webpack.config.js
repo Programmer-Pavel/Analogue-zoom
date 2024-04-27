@@ -1,5 +1,4 @@
 const path = require('node:path') // Импортируем модуль "path" для работы с путями файлов
-const process = require('node:process')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -7,6 +6,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 
+// eslint-disable-next-line node/prefer-global/process
 const devMode = process.env.NODE_ENV !== 'production'
 
 const config = {
