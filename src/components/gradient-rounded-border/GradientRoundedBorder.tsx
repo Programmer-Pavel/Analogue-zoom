@@ -1,6 +1,6 @@
-import styles from "./GradientRoundedBorder.module.scss";
-import React from "react";
+import React from 'react'
+import styles from './GradientRoundedBorder.module.scss'
 
-export const GradientRoundedBorder = () => {
-    return <div className={styles.main}>dd</div>;
-};
+export function GradientRoundedBorder() {
+  return <div className={styles.main}>dd</div>
+}

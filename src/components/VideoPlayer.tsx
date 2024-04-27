@@ -1,3 +1,3 @@
-export const VideoPlayer = () => {
-    return <div>VideoPlayer</div>
+export function VideoPlayer() {
+  return <div>VideoPlayer</div>
 }

@@ -1,11 +1,6 @@
-import React, {
-  Fragment,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { socket } from "../../../socket";
-import { MessagePanel } from "../message-panel/MessagePanel";
+import React, { useEffect } from 'react'
+import { socket } from '../../../socket'
+import { MessagePanel } from '../message-panel/MessagePanel'
 
 interface ChatProps {
   users: any[]
@@ -14,45 +9,45 @@ interface ChatProps {
   setSelectedUser: (value: any) => void
 }
 
-export const Chat = ({users, setUsers, selectedUser, setSelectedUser}: ChatProps) => {
+export function Chat({ users, setUsers, selectedUser, setSelectedUser }: ChatProps) {
   useEffect(() => {
-    socket.on("private message", ({ content, from, to }) => {
+    socket.on('private message', ({ content, from, to }) => {
       // @ts-expect-error fix
-      const fromSelf = socket.userID === from;
+      const fromSelf = socket.userID === from
 
       const changedData = users?.map((item) => {
-        if(item?.userID === ( fromSelf ? to : from )) {
+        if (item?.userID === (fromSelf ? to : from)) {
           return {
             ...item,
             messages: [
               ...item?.messages,
               {
                 content,
-                fromSelf
-              }
+                fromSelf,
+              },
             ],
-            hasNewMessages: item?.userID !== selectedUser?.userID ? true : false
+            hasNewMessages: item?.userID !== selectedUser?.userID,
           }
         }
         return item
       })
 
-      setUsers(changedData);
-    });
+      setUsers(changedData)
+    })
 
     return () => {
-      socket.off("private message");
-    };
-  }, [users]);
+      socket.off('private message')
+    }
+  }, [users])
 
   const onMessage = (content: any) => {
     if (selectedUser) {
-      socket.emit("private message", {
+      socket.emit('private message', {
         content,
         to: selectedUser.userID,
-      });
+      })
       setSelectedUser((prevState: any) => {
-        if(prevState) {
+        if (prevState) {
           return {
             ...prevState,
             messages: [
@@ -63,14 +58,15 @@ export const Chat = ({users, setUsers, selectedUser, setSelectedUser}: ChatProps
               },
             ],
           }
-        } else {
+        }
+        else {
           return prevState
         }
-      });
+      })
     }
-  };
+  }
 
   return (
     <MessagePanel onMessage={onMessage} user={selectedUser} />
-  );
-};
+  )
+}
