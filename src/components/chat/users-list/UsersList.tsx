@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { socket } from '../../../../socket';
+import { useSocketIo } from '../../../hooks/useSocketIo';
 
 // interface TabPanelProps {
 //   children?: React.ReactNode;
@@ -42,15 +42,17 @@ export const UsersList = () => {
   const [value, setValue] = useState(0);
   const [allMessages, setAllMessages] = useState([])
 
+  const { socketConnection }  = useSocketIo()
+
   useEffect(() => {
     function onGetMessages(messagesFromServer: any) {
         setAllMessages(messagesFromServer);
     }
 
-    socket.on('messages', onGetMessages);
+    socketConnection.on('messages', onGetMessages);
   
     return () => {
-        socket.off('messages', onGetMessages);
+      socketConnection.off('messages', onGetMessages);
     };
 }, [])
 

@@ -1,13 +1,15 @@
 
 import React, { useState, useEffect } from "react"
-import { socket } from "../../../socket"
 import { ChatTest } from "./ChatTest"
 import { UsersList } from "./users-list/UsersList"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
+import { useSocketIo } from "../../hooks/useSocketIo"
 
 export const ConnectSocket = () => {
-  const [isConnected, setIsConnected] = useState(socket.connected)
+  const { socketConnection }  = useSocketIo()
+
+  const [isConnected, setIsConnected] = useState(socketConnection.connected)
 
   useEffect(() => {
     function onConnect() {
@@ -18,17 +20,17 @@ export const ConnectSocket = () => {
       setIsConnected(false)
     }
 
-    socket.on('connect', onConnect)
-    socket.on('disconnect', onDisconnect)
+    socketConnection.on('connect', onConnect)
+    socketConnection.on('disconnect', onDisconnect)
 
     return () => {
-      socket.off('connect', onConnect)
-      socket.off('disconnect', onDisconnect)
+      socketConnection.off('connect', onConnect)
+      socketConnection.off('disconnect', onDisconnect)
     }
   }, [])
 
   const onConnectChat = () => {
-    socket.connect()
+    socketConnection.connect()
   }
 
   return (
@@ -47,16 +49,14 @@ export const ConnectSocket = () => {
             </Button>
         </Box>
       }
-      {/* <div>
+      <div>
         is connected:
         {isConnected ? 'true' : 'false'}
       </div>
-      <button onClick={() => socket.connect()}>connect</button>
-      <button onClick={() => socket.disconnect()}>disconnect</button>
       <br />
       <br />
 
-      <ChatTest /> */}
+      <ChatTest />
     </Box>
   )
 }

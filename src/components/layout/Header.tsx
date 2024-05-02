@@ -15,6 +15,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { MenuDrawer } from '../drawer/MenuDrawer';
 import { useAuthStore } from '../../store/auth-store';
 import { useNavigate } from 'react-router-dom';
+import { useSocketIo } from '../../hooks/useSocketIo';
 
 export const Header = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -22,6 +23,8 @@ export const Header = () => {
   const [isDrawerMenu, setIsDrawerMenu] = useState<boolean>(false);
 
   const setToken = useAuthStore((state) => state.setToken);
+
+  const { socketConnection }  = useSocketIo()
 
   const navigate = useNavigate();
 
@@ -52,6 +55,7 @@ export const Header = () => {
   const onLogout = () => {
     setToken('')
     navigate('/login')
+    socketConnection.disconnect()
   };
 
   const menuId = 'primary-search-account-menu';
