@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from "react"
-import { ChatTest } from "./ChatTest"
-import { UsersList } from "./users-list/UsersList"
+import { Chat } from "./Chat"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import { useSocketIo } from "../../hooks/useSocketIo"
@@ -37,7 +36,7 @@ export const ConnectSocket = () => {
     <Box height='100%'>
       {
         isConnected 
-        ? <UsersList />
+        ? <Chat />
         : <Box
             display="flex"
             alignItems='center'
@@ -49,14 +48,6 @@ export const ConnectSocket = () => {
             </Button>
         </Box>
       }
-      <div>
-        is connected:
-        {isConnected ? 'true' : 'false'}
-      </div>
-      <br />
-      <br />
-
-      <ChatTest />
     </Box>
   )
 }
