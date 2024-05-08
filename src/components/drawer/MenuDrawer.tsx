@@ -31,7 +31,6 @@ interface MenuDrawerProps {
 }
 
 export const MenuDrawer = ({isDrawerMenu, setIsDrawerMenu}: MenuDrawerProps) => {
-
   const navigate = useNavigate()
 
   const toggleDrawer = (newOpen: boolean) => () => {

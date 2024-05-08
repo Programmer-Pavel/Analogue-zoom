@@ -11,25 +11,28 @@ export const Chat = () => {
   const [users, setUsers] = useState([])
   const [choosedUserId, setChoosedUserId] = useState<number | null>(null);
 
-  const { socketConnection }  = useSocketIo()
+  const { socketConnection, isConnected }  = useSocketIo()
   const { infoFromToken } = useAuth()
 
   useEffect(() => {
-      socketConnection.emit("getUsers");
+      if(isConnected) {
+        socketConnection?.emit("getUsers");
 
-      function onGetUsers(usersFromServer: any) {
-          if(infoFromToken) {
-             const usersWithoutCurrentUser = usersFromServer.filter((el: any) => el.id !== infoFromToken.userId);
-             setUsers(usersWithoutCurrentUser);
-          }
-      }
-
-      socketConnection.on('users', onGetUsers);
+        //@ts-expect-error fix
+        function onGetUsers(usersFromServer: any) {
+            if(infoFromToken) {
+               const usersWithoutCurrentUser = usersFromServer.filter((el: any) => el.id !== infoFromToken.userId);
+               setUsers(usersWithoutCurrentUser);
+            }
+        }
   
-      return () => {
-          socketConnection.off('users', onGetUsers);
-      };
-  }, [])
+        socketConnection?.on('users', onGetUsers);
+
+        return () => {
+          socketConnection?.off('users', onGetUsers);
+        };
+      }
+  }, [isConnected])
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -37,7 +40,7 @@ export const Chat = () => {
 
   const onChooseUser = (userId: number) => {
     setChoosedUserId(userId)
-    socketConnection.emit("getCurrentUserMessages", userId);
+    socketConnection?.emit("getCurrentUserMessages", userId);
   };
 
   return (
@@ -65,15 +68,14 @@ export const Chat = () => {
       </Tabs>
       {
         choosedUserId 
-        ? <Box sx={{ p: 3 }}>
+        ? <Box width='90%' p='5px'>
           <Messages choosedUserId={choosedUserId}/>
         </Box> 
         : <Box
             display="flex"
             alignItems='center'
             justifyContent='center'
-            height='100%'
-            width='100%'
+            width='90%'
             p='5px'
           >
             Select a chat to start messaging

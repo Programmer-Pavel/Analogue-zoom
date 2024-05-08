@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -31,6 +31,12 @@ export const Header = () => {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  useEffect(() => {
+    return () => {
+      socketConnection?.disconnect()
+    }
+  }, [])
+
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -55,7 +61,7 @@ export const Header = () => {
   const onLogout = () => {
     setToken('')
     navigate('/login')
-    socketConnection.disconnect()
+    socketConnection?.disconnect()
   };
 
   const menuId = 'primary-search-account-menu';
