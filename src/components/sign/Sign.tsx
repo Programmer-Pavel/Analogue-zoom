@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useAuthStore } from '../../store/auth-store';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import CssBaseline from '@mui/material/CssBaseline'
+import TextField from '@mui/material/TextField'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
+import Link from '@mui/material/Link'
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { useNavigate } from 'react-router-dom'
+import { useAuthStore } from '../../store/auth-store'
 
 function Copyright(props: any) {
   return (
@@ -21,23 +21,24 @@ function Copyright(props: any) {
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{' '}
+      </Link>
+      {' '}
       {new Date().getFullYear()}
-      {'.'}
+      .
     </Typography>
-  );
+  )
 }
 
 // TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+const defaultTheme = createTheme()
 
-export const SignIn = () => {
+export function SignIn() {
   const [usernameInputValue, setUsernameInputValue] = useState('')
   const [passwordInputValue, setPasswordInputValue] = useState('')
 
-  const setToken = useAuthStore((state) => state.setToken);
+  const setToken = useAuthStore(state => state.setToken)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const onUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsernameInputValue(event.target.value)
@@ -46,29 +47,30 @@ export const SignIn = () => {
   const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInputValue(event.target.value)
   }
-  
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
 
-    let response = await fetch('http://localhost:3000/login', {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const response = await fetch('http://localhost:3000/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
       },
       body: JSON.stringify({
         username: usernameInputValue,
-        password: passwordInputValue
-      })
-    });
+        password: passwordInputValue,
+      }),
+    })
 
     if (response.ok) {
-      const json = await response.json();
+      const json = await response.json()
       setToken(json.accessToken)
       navigate('/')
-    } else {
-      alert("Ошибка HTTP: " + response.status);
     }
-  };
+    else {
+      console.log(`Ошибка HTTP: ${response.status}`)
+    }
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -133,7 +135,7 @@ export const SignIn = () => {
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  Don't have an account? Sign Up
                 </Link>
               </Grid>
             </Grid>
@@ -142,5 +144,5 @@ export const SignIn = () => {
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
-  );
+  )
 }

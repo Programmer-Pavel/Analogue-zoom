@@ -1,14 +1,14 @@
 import React from 'react'
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box'
+import Drawer from '@mui/material/Drawer'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import InboxIcon from '@mui/icons-material/MoveToInbox'
+import MailIcon from '@mui/icons-material/Mail'
+import { useNavigate } from 'react-router-dom'
 
 const menuDrawerItems = [
   {
@@ -21,8 +21,8 @@ const menuDrawerItems = [
     id: 2,
     label: 'Остальное',
     link: '/',
-    icon: <InboxIcon />
-  }
+    icon: <InboxIcon />,
+  },
 ]
 
 interface MenuDrawerProps {
@@ -30,12 +30,12 @@ interface MenuDrawerProps {
   setIsDrawerMenu: (value: boolean) => void
 }
 
-export const MenuDrawer = ({isDrawerMenu, setIsDrawerMenu}: MenuDrawerProps) => {
+export function MenuDrawer({ isDrawerMenu, setIsDrawerMenu }: MenuDrawerProps) {
   const navigate = useNavigate()
 
   const toggleDrawer = (newOpen: boolean) => () => {
-    setIsDrawerMenu(newOpen);
-  };
+    setIsDrawerMenu(newOpen)
+  }
 
   const onListItem = (link: string) => {
     navigate(link)
@@ -44,7 +44,7 @@ export const MenuDrawer = ({isDrawerMenu, setIsDrawerMenu}: MenuDrawerProps) => 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
-        {menuDrawerItems.map((el) => (
+        {menuDrawerItems.map(el => (
           <ListItem key={el.id} disablePadding onClick={() => onListItem(el.link)}>
             <ListItemButton>
               <ListItemIcon>
@@ -56,11 +56,11 @@ export const MenuDrawer = ({isDrawerMenu, setIsDrawerMenu}: MenuDrawerProps) => 
         ))}
       </List>
     </Box>
-  );
+  )
 
   return (
     <Drawer open={isDrawerMenu} onClose={toggleDrawer(false)}>
       {DrawerList}
     </Drawer>
-  );
+  )
 }

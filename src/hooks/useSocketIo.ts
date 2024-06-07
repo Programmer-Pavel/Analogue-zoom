@@ -1,6 +1,7 @@
-import { Socket, io } from "socket.io-client";
-import { useAuth } from "./useAuth";
-import { useEffect, useState } from "react";
+import type { Socket } from 'socket.io-client'
+import { io } from 'socket.io-client'
+import { useEffect, useState } from 'react'
+import { useAuth } from './useAuth'
 
 // "undefined" means the URL will be computed from the `window.location` object
 const URL
@@ -9,8 +10,8 @@ const URL
 
 let socketConnection: Socket | undefined
 
-export const useSocketIo = () => {
-  const { token } = useAuth();
+export function useSocketIo() {
+  const { token } = useAuth()
 
   const [isConnected, setIsConnected] = useState(socketConnection?.connected)
 
@@ -33,19 +34,19 @@ export const useSocketIo = () => {
   }, [])
 
   useEffect(() => {
-    if(token && !socketConnection) {
-        socketConnection = io(URL as any, {
-            // autoConnect: false,
-            withCredentials: true,
-            auth: {
-               token: token
-            }
-        })
+    if (token && !socketConnection) {
+      socketConnection = io(URL as any, {
+        // autoConnect: false,
+        withCredentials: true,
+        auth: {
+          token,
+        },
+      })
     }
   }, [token])
-  
+
   return {
     socketConnection,
-    isConnected
-  };
-};
+    isConnected,
+  }
+}

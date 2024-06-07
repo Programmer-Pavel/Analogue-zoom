@@ -6,21 +6,21 @@ import SendIcon from '@mui/icons-material/Send'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import { styled } from '@mui/material/styles'
+import { TextField } from '@mui/material'
+import Avatar from '@mui/material/Avatar'
+import Typography from '@mui/material/Typography'
 import { useAuth } from '../../hooks/useAuth'
 import { useSocketIo } from '../../hooks/useSocketIo'
 import { ChoosedFilesModalShow } from './ChoosedFilesModal'
-import { TextField } from '@mui/material'
-import Avatar from '@mui/material/Avatar'
-import Typography from '@mui/material/Typography';
 
-const filesToObjectUrl = (copyMessage: any) => {
+function filesToObjectUrl(copyMessage: any) {
   const fileUrls = copyMessage.files?.map((el: any) => {
-    const blob = new Blob([el], { type: 'application/octet-stream' });
-    const fileUrl = URL.createObjectURL(blob);
+    const blob = new Blob([el], { type: 'application/octet-stream' })
+    const fileUrl = URL.createObjectURL(blob)
     return fileUrl
   })
 
-  copyMessage["fileUrls"] = fileUrls
+  copyMessage.fileUrls = fileUrls
 }
 
 export const VisuallyHiddenInput = styled('input')({
@@ -56,7 +56,7 @@ export function Messages({
 
     function onGetMessages(messagesFromServer: any) {
       const messagesWithFilesUrl = messagesFromServer.map((el: any) => {
-        if(el.files) {
+        if (el.files) {
           const copyMessage = { ...el }
           filesToObjectUrl(copyMessage)
           return copyMessage
@@ -73,9 +73,9 @@ export function Messages({
       ) {
         const copyMessage = { ...newMessage }
 
-        if(newMessage.files) {
+        if (newMessage.files)
           filesToObjectUrl(copyMessage)
-        }
+
         setAllMessages((lastState: any) => [...lastState, copyMessage])
       }
     }
@@ -133,7 +133,7 @@ export function Messages({
       flexDirection="column"
       justifyContent="space-between"
     >
-      <Box display="flex" flexDirection="column" gap="5px" overflow='auto' pr='10px'>
+      <Box display="flex" flexDirection="column" gap="5px" overflow="auto" pr="10px">
         {allMessages.map((el: any, index: number) => {
           const isMe = infoFromToken.userId === el.userId
           return (
@@ -150,14 +150,14 @@ export function Messages({
               >
                 {isMe ? 'I' : `user ${el.userId}`}
                 :
-                <Box display='flex' gap='8px' mb='4px'>
-                  { 
+                <Box display="flex" gap="8px" mb="4px">
+                  {
                     el.fileUrls?.map((el: any) => (
-                       <Avatar key={el} sx={{ width: 200, height: 200 }} variant="rounded" src={el} />
+                      <Avatar key={el} sx={{ width: 200, height: 200 }} variant="rounded" src={el} />
                     ))
                   }
                 </Box>
-                <Typography variant="body1" gutterBottom ml='5px'>
+                <Typography variant="body1" gutterBottom ml="5px">
                   {el.message}
                 </Typography>
               </Box>

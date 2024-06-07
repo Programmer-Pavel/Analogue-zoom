@@ -13,8 +13,8 @@ const root = createRoot(rootElement)
 
 root.render(
   // <React.StrictMode>
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+  <BrowserRouter>
+    <AppRoutes />
+  </BrowserRouter>,
   // </React.StrictMode>,
 )

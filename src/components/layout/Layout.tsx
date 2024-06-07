@@ -1,16 +1,15 @@
-import * as React from 'react';
-import { Outlet } from 'react-router-dom';
-import { Header } from './Header';
-import Box from '@mui/material/Box';
+import * as React from 'react'
+import { Outlet } from 'react-router-dom'
+import Box from '@mui/material/Box'
+import { Header } from './Header'
 
-
-export const Layout = () => {
+export function Layout() {
   return (
-    <Box height='100%'>
-      <Header/>
-      <Box height='calc(100% - 84px)' p='10px'>
-        <Outlet/>
+    <Box height="100%">
+      <Header />
+      <Box height="calc(100% - 84px)" p="10px">
+        <Outlet />
       </Box>
     </Box>
-  );
+  )
 }
