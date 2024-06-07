@@ -1,10 +1,13 @@
-import { resolve as _resolve, join } from 'node:path' // Импортируем модуль "path" для работы с путями файлов
+import path from 'node:path' // Импортируем модуль "path" для работы с путями файлов
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
-import MiniCssExtractPlugin, { loader as _loader } from 'mini-css-extract-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
+const { loader: _loader } = MiniCssExtractPlugin;
+const { resolve: _resolve, join } = path;
 
 // eslint-disable-next-line node/prefer-global/process
 const devMode = process.env.NODE_ENV !== 'production'
