@@ -1,10 +1,10 @@
-const path = require('node:path') // Импортируем модуль "path" для работы с путями файлов
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
+import { resolve as _resolve, join } from 'node:path' // Импортируем модуль "path" для работы с путями файлов
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
+import MiniCssExtractPlugin, { loader as _loader } from 'mini-css-extract-plugin'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
 
 // eslint-disable-next-line node/prefer-global/process
 const devMode = process.env.NODE_ENV !== 'production'
@@ -14,7 +14,7 @@ const config = {
 
   output: {
     filename: devMode ? '[name].js' : '[name].[contenthash].js', // Имя выходного файла сборки
-    path: path.resolve(__dirname, 'build'), // Путь для выходного файла сборки
+    path: _resolve(__dirname, 'build'), // Путь для выходного файла сборки
     clean: true,
   },
 
@@ -35,7 +35,7 @@ const config = {
           devMode
             ? 'style-loader'
             : {
-                loader: MiniCssExtractPlugin.loader,
+                loader: _loader,
                 options: {},
               },
           {
@@ -65,7 +65,7 @@ const config = {
           devMode
             ? 'style-loader'
             : {
-                loader: MiniCssExtractPlugin.loader,
+                loader: _loader,
                 options: {},
               },
           'css-loader',
@@ -144,8 +144,8 @@ const config = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'src/assets'),
-          to: path.resolve(__dirname, 'build/assets'),
+          from: _resolve(__dirname, 'src/assets'),
+          to: _resolve(__dirname, 'build/assets'),
         },
       ],
     }),
@@ -154,7 +154,7 @@ const config = {
   devServer: {
     historyApiFallback: true,
     static: {
-      directory: path.join(__dirname, 'build'), // Каталог для статики
+      directory: join(__dirname, 'build'), // Каталог для статики
     },
     open: true, // Автоматически открывать браузер
     client: {
@@ -166,7 +166,7 @@ const config = {
   },
 }
 
-module.exports = () => {
+export default () => {
   if (devMode) {
     config.mode = 'development'
     config.devtool = 'source-map'
