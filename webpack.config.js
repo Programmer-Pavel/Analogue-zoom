@@ -5,9 +5,13 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import { fileURLToPath } from 'url'
 
 const { loader: _loader } = MiniCssExtractPlugin;
-const { resolve: _resolve, join } = path;
+const { resolve: _resolve, join, dirname } = path;
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 // eslint-disable-next-line node/prefer-global/process
 const devMode = process.env.NODE_ENV !== 'production'
