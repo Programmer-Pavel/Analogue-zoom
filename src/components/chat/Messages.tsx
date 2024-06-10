@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography'
 import { useAuth } from '../../hooks/useAuth'
 import { useSocketIo } from '../../hooks/useSocketIo'
 import { ChoosedFilesModalShow } from './ChoosedFilesModal'
+import { EmojiChoose } from './emoji/EmojiChoose'
 
 function filesToObjectUrl(copyMessage: any) {
   const fileUrls = copyMessage.files?.map((el: any) => {
@@ -177,7 +178,6 @@ export function Messages({
             startAdornment: (
               <InputAdornment position="start">
                 <IconButton
-                  size="large"
                   component="label"
                   role={undefined}
                   tabIndex={-1}
@@ -189,6 +189,11 @@ export function Messages({
                     onChange={uploadFile}
                   />
                 </IconButton>
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <EmojiChoose setSendMessageInputValue={setSendMessageInputValue}/>
               </InputAdornment>
             ),
           }}
