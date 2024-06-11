@@ -1,8 +1,8 @@
-import { createContext, useEffect, useRef, useState } from 'react'
+import { createContext, useEffect, useMemo, useRef, useState } from 'react'
 import { io } from 'socket.io-client'
 import Peer from 'simple-peer'
 
-const SocketContext = createContext()
+const SocketContext = createContext(null)
 
 const socket = io('http://localhost:5000')
 
@@ -22,7 +22,7 @@ function ContextProvider({ children }) {
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream)
-        myVideo.current.srcObject = currentStream
+        myVideo.current?.srcObject = currentStream
       })
 
     socket.on('me', id => setMe(id))
@@ -55,15 +55,15 @@ function ContextProvider({ children }) {
     connectionRef.current = peer
   }
 
-  const callUser = (id) => {
+  const callUser = (_id) => {
     const peer = new Peer({ initiator: true, trickle: false, stream })
 
-    peer.on('signal', (data) => {
-      socket.emit('calluser', { userToCall: id, signalData, data, from: me, name })
-    })
+    // peer.on('signal', (data) => {
+    //   socket.emit('calluser', { userToCall: id, signalData, data, from: me, name })
+    // })
 
     peer.on('stream', (currentStream) => {
-      userVideo.current.srcObject = currentStream
+      userVideo.current?.srcObject = currentStream
     })
 
     socket.on('callaccepted', (signal) => {
@@ -76,12 +76,12 @@ function ContextProvider({ children }) {
 
   const leaveCall = () => {
     setCallEnded(true)
-    connectionRef.current.destroy()
+    connectionRef.current?.destroy()
     window.location.reload()
   }
 
-  return (
-    <SocketContext.Provider value={{
+  const value = useMemo(() => {
+    return {
       call,
       callAccepted,
       myVideo,
@@ -94,8 +94,11 @@ function ContextProvider({ children }) {
       callUser,
       leaveCall,
       answerCall,
-    }}
-    >
+    }
+  }, [])
+
+  return (
+    <SocketContext.Provider value={value}>
       {children}
     </SocketContext.Provider>
   )

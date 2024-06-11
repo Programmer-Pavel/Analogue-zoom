@@ -1,14 +1,14 @@
 import path from 'node:path' // Импортируем модуль "path" для работы с путями файлов
+import { fileURLToPath } from 'node:url'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { fileURLToPath } from 'url'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 
-const { loader: _loader } = MiniCssExtractPlugin;
-const { resolve: _resolve, join, dirname } = path;
+const { loader: _loader } = MiniCssExtractPlugin
+const { resolve: _resolve, join, dirname } = path
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

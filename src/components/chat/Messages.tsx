@@ -135,11 +135,11 @@ export function Messages({
       justifyContent="space-between"
     >
       <Box display="flex" flexDirection="column" gap="5px" overflow="auto" pr="10px">
-        {allMessages.map((el: any, index: number) => {
+        {allMessages.map((el: any) => {
           const isMe = infoFromToken.userId === el.userId
           return (
             <Box
-              key={index}
+              key={el.id}
               display="flex"
               justifyContent={isMe ? 'flex-end' : 'flex-start'}
             >
@@ -193,7 +193,7 @@ export function Messages({
             ),
             endAdornment: (
               <InputAdornment position="end">
-                <EmojiChoose setSendMessageInputValue={setSendMessageInputValue}/>
+                <EmojiChoose setSendMessageInputValue={setSendMessageInputValue} />
               </InputAdornment>
             ),
           }}

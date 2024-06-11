@@ -17,7 +17,7 @@ export function Modal({ isShow, setIsShow }: ModalProps) {
           nam, neque quasi eos! Saepe, doloremque quam.
         </div>
 
-        <button onClick={() => setIsShow(false)}>close</button>
+        <button type="button" onClick={() => setIsShow(false)}>close</button>
       </div>
       <div
         className={`${styles.overlay} ${isShow && styles.overlay_show}`}

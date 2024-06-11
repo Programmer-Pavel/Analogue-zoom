@@ -1,10 +1,10 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 import IconButton from '@mui/material/IconButton'
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions'
 import emojiData from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
-import { useOnClickOutside } from "../../../hooks/useOnClickOutside";
-import { styled } from "@mui/material/styles";
+import { styled } from '@mui/material/styles'
+import { useOnClickOutside } from '../../../hooks/useOnClickOutside'
 
 const EmojiChooseWrapper = styled('div')({
   position: 'relative',
@@ -13,39 +13,43 @@ const EmojiChooseWrapper = styled('div')({
 const EmojiPickerWrapper = styled('div')({
   position: 'absolute',
   bottom: '40px',
-  right: 0
+  right: 0,
 })
 
-export const EmojiChoose = ({setSendMessageInputValue}: {setSendMessageInputValue: (value: string) => void}) => {
-    const [isEmojisOpen, setIsEmojisOpen] = useState<boolean>(false)
+export function EmojiChoose({ setSendMessageInputValue }: { setSendMessageInputValue: (value: string) => void }) {
+  const [isEmojisOpen, setIsEmojisOpen] = useState<boolean>(false)
 
-    const onClickOutside = () => {
-        setIsEmojisOpen(false)
-    }
+  const onClickOutside = () => {
+    setIsEmojisOpen(false)
+  }
 
-    const emojiRef = useOnClickOutside(onClickOutside)
+  const emojiRef = useOnClickOutside(onClickOutside)
 
-    const onEmojiSelect = (data: any) => {
-        setSendMessageInputValue(data.native)
-    }
+  const onEmojiSelect = (data: any) => {
+    setSendMessageInputValue(data.native)
+  }
 
-    const onEmojiIconClick = (d: any) => {
-        setIsEmojisOpen(true)
-    }
+  const onEmojiIconClick = () => {
+    setIsEmojisOpen(true)
+  }
 
-    return <EmojiChooseWrapper>
-        <IconButton onClick={onEmojiIconClick}>
-            <EmojiEmotionsIcon />
-        </IconButton>
-        {
-           isEmojisOpen && 
-            <EmojiPickerWrapper ref={emojiRef}>
-                <Picker
-                    data={emojiData} 
-                    onEmojiSelect={onEmojiSelect}
-                    previewPosition='none'
-                />
-            </EmojiPickerWrapper>
+  return (
+    <EmojiChooseWrapper>
+      <IconButton onClick={onEmojiIconClick}>
+        <EmojiEmotionsIcon />
+      </IconButton>
+      {
+           isEmojisOpen
+           && (
+             <EmojiPickerWrapper ref={emojiRef}>
+               <Picker
+                 data={emojiData}
+                 onEmojiSelect={onEmojiSelect}
+                 previewPosition="none"
+               />
+             </EmojiPickerWrapper>
+           )
         }
     </EmojiChooseWrapper>
+  )
 }
