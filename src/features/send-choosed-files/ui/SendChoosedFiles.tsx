@@ -18,7 +18,7 @@ import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import { useSocketIo } from '../../../shared/hooks/useSocketIo'
-import { VisuallyHiddenInput } from '../../../widgets/messages/ui/Messages'
+import { VisuallyHiddenInput } from '../../send-message/ui/SendMessage'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
