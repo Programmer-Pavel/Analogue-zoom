@@ -151,7 +151,7 @@ const config = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: _resolve(__dirname, 'src/assets'),
+          from: _resolve(__dirname, 'assets'),
           to: _resolve(__dirname, 'build/assets'),
         },
       ],
