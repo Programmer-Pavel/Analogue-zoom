@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     // "incremental": true,
-    "target": "es5",
-    "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "esnext",
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "ESNext"],
+    "module": "ESNext",
     "moduleResolution": "node",
     // "paths": {
     //   "@/*": ["./src/*"]
