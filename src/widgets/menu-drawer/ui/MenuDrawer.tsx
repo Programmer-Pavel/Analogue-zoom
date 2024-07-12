@@ -11,6 +11,7 @@ import MailIcon from '@mui/icons-material/Mail'
 import MenuIcon from '@mui/icons-material/Menu'
 import IconButton from '@mui/material/IconButton'
 import { useNavigate } from 'react-router-dom'
+import DrawIcon from '@mui/icons-material/Draw'
 
 const menuDrawerItems = [
   {
@@ -21,9 +22,15 @@ const menuDrawerItems = [
   },
   {
     id: 2,
-    label: 'Остальное',
-    link: '/',
-    icon: <InboxIcon />,
+    label: 'Canvas',
+    link: '/canvas',
+    icon: <DrawIcon />,
+  },
+  {
+    id: 3,
+    label: 'Three Fiber',
+    link: '/three-fiber',
+    icon: <DrawIcon />,
   },
 ]
 
@@ -58,8 +65,9 @@ export function MenuDrawer() {
       </IconButton>
 
       <Drawer open={isDrawerMenu} onClose={toggleDrawer(false)}>
-        <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
-          <List>
+        {/* < sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}> */}
+        <div style={{ width: 250 }} onClick={toggleDrawer(false)}>
+          <List onClick={toggleDrawer(false)}>
             {menuDrawerItems.map(el => (
               <ListItem key={el.id} disablePadding onClick={() => onListItem(el.link)}>
                 <ListItemButton>
@@ -71,7 +79,7 @@ export function MenuDrawer() {
               </ListItem>
             ))}
           </List>
-        </Box>
+        </div>
       </Drawer>
     </>
   )

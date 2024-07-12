@@ -11,7 +11,6 @@ export function useGetUsers() {
     if (isConnected) {
       socketConnection?.emit('getUsers')
 
-      // @ts-expect-error fix
       function onGetUsers(usersFromServer: any) {
         if (infoFromToken) {
           const usersWithoutCurrentUser = usersFromServer.filter(

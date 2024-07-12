@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import Button from '@mui/material/Button'
+import type { Theme } from '@mui/material/styles'
 import { styled } from '@mui/material/styles'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -123,7 +124,7 @@ export function SendChoosedFiles({
           position: 'absolute',
           right: 8,
           top: 8,
-          color: theme => theme.palette.grey[500],
+          color: (theme: Theme) => theme.palette.grey[500],
         }}
       >
         <CloseIcon />
