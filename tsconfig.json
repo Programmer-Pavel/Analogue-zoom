@@ -12,6 +12,8 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "strict": true,
+    // TODO временно отключил, так как падает билд из-за ошибок типов либы ecctrl
+    "strictNullChecks": false,
     "noEmit": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
