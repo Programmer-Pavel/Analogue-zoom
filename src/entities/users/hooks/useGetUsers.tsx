@@ -1,6 +1,6 @@
+import { useAuth } from '@entities/session'
+import { useSocketIo } from '@shared/hooks'
 import { useEffect, useState } from 'react'
-import { useSocketIo } from '../../../shared/hooks/useSocketIo'
-import { useAuth } from '../../session'
 
 export function useGetUsers() {
   const [users, setUsers] = useState([])

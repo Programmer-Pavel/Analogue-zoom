@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Tabs from '@mui/material/Tabs'
 import Box from '@mui/material/Box'
 import { Tab } from '@mui/material'
-import { useAuth } from '../../../entities/session'
-import { useGetUsers } from '../../../entities/users'
-import { useSocketIo } from '../../../shared/hooks/useSocketIo'
-import { Messages } from '../../../widgets/messages'
+import { useAuth } from '@entities/session'
+import { useGetUsers } from '@entities/users'
+import { useSocketIo } from '@shared/hooks'
+import { Messages } from '@widgets/messages'
 
 export function Chat() {
   const [value, setValue] = useState<number | boolean>(false)

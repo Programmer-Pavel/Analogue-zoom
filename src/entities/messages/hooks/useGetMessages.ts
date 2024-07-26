@@ -1,5 +1,5 @@
+import { useSocketIo } from '@shared/hooks'
 import { useEffect, useState } from 'react'
-import { useSocketIo } from '../../../shared/hooks/useSocketIo'
 import { filesToObjectUrl } from '../lib'
 
 export function useGetMessages(choosedUserId: number | null) {

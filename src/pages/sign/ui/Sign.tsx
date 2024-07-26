@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { useNavigate } from 'react-router-dom'
-import { useAuthStore } from '../../../entities/session'
+import { useAuthStore } from '@entities/session'
 
 function Copyright(props: any) {
   return (

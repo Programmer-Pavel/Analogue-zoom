@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef } from 'react'
+import { forwardRef, useRef } from 'react'
 import { KeyboardControls } from '@react-three/drei'
 import Ecctrl from 'ecctrl'
 import { type CollisionEnterPayload, type CollisionExitPayload, vec3 } from '@react-three/rapier'

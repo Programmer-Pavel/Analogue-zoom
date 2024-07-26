@@ -1,4 +1,4 @@
-import { parseJwt } from '../../../shared/lib/parseJwt'
+import { parseJwt } from '@shared/lib'
 import { useAuthStore } from '../model/session-store'
 
 export function useAuth() {

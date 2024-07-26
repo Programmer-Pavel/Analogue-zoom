@@ -1,25 +1,14 @@
-import React, { Suspense, useRef, useState } from 'react'
+import { Suspense, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Sky, Text } from '@react-three/drei'
+import { OrbitControls, Sky } from '@react-three/drei'
 import type { RapierRigidBody } from '@react-three/rapier'
-import { CuboidCollider, Physics, RigidBody } from '@react-three/rapier'
+import { Physics, RigidBody } from '@react-three/rapier'
 import { Floor } from './Floor'
+import { Gates } from './Gates'
 import { Player } from './Player'
 
 export function FootballGameContainer() {
-  const [intersecting, setIntersection] = useState(false)
-
   const ballRigidBody = useRef<RapierRigidBody>(null)
-
-  const onIntersectionEnter = (payload: any) => {
-    if (payload.rigidBodyObject.name === 'player')
-      setIntersection(true)
-  }
-
-  const onIntersectionExit = (payload: any) => {
-    if (payload.rigidBodyObject.name === 'player')
-      setIntersection(false)
-  }
 
   return (
     <>
@@ -36,36 +25,10 @@ export function FootballGameContainer() {
               </mesh>
             </RigidBody>
 
-            <CuboidCollider
-              position={[-8, -2, 5]}
-              args={[8, 5, 1]}
-              sensor
-              onIntersectionEnter={payload => onIntersectionEnter(payload)}
-              onIntersectionExit={payload => onIntersectionExit(payload)}
-            />
-
-            <RigidBody position={[-8, 3, 4]} type="fixed">
-              <mesh position={[0, 0, 0]}>
-                <boxGeometry args={[15, 1, 1]} />
-              </mesh>
-              <mesh position={[8, -4, 0]}>
-                <boxGeometry args={[1, 9, 1]} />
-              </mesh>
-              <mesh position={[-8, -4, 0]}>
-                <boxGeometry args={[1, 9, 1]} />
-              </mesh>
-            </RigidBody>
-
             <Player ref={ballRigidBody} />
-
-            {intersecting && (
-              <Text color="red" position={[-6, 5, 0]} fontSize={2}>
-                !
-              </Text>
-            )}
+            <Gates />
             <Floor />
           </Physics>
-
         </Suspense>
 
         <OrbitControls />

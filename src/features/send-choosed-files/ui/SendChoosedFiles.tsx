@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Button from '@mui/material/Button'
 import type { Theme } from '@mui/material/styles'
 import { styled } from '@mui/material/styles'
@@ -18,8 +18,8 @@ import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
-import { useSocketIo } from '../../../shared/hooks/useSocketIo'
-import { VisuallyHiddenInput } from '../../send-message/ui/SendMessage'
+import { useSocketIo } from '@shared/hooks'
+import { VisuallyHiddenInput } from '@features/send-message/ui/SendMessage'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {

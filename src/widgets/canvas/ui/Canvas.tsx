@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 export function Canvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)

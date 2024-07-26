@@ -8,15 +8,13 @@ import Typography from '@mui/material/Typography'
 import Badge from '@mui/material/Badge'
 import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
-import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import MoreIcon from '@mui/icons-material/MoreVert'
 import { useNavigate } from 'react-router-dom'
-import { useAuthStore } from '../../../entities/session'
-import { useSocketIo } from '../../../shared/hooks/useSocketIo'
-import { MenuDrawer } from '../../menu-drawer'
+import { useAuthStore } from '@entities/session'
+import { useSocketIo } from '@shared/hooks'
 
 interface HeaderProps {
   children: ReactNode

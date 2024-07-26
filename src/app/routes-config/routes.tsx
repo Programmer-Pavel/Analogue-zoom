@@ -1,10 +1,9 @@
-import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { Layout } from '../../pages/layout'
-import { SignIn } from '../../pages/sign'
-import { CanvasPage } from '../../pages/canvas'
-import { FootballGamePage } from '../../pages/football-game'
-import { Chat } from '../../pages/chat'
+import { Chat } from '@pages/chat'
+import { CanvasPage } from '@pages/canvas'
+import { FootballGamePage } from '@pages/football-game'
+import { Layout } from '@pages/layout'
+import { SignIn } from '@pages/sign'
 import { PrivateRoutes } from './PrivateRoutes'
 
 export function AppRoutes() {

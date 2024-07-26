@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Box from '@mui/material/Box'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import Button from '@mui/material/Button'
@@ -7,8 +7,8 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import { TextField } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { EmojiChoose } from '../../../features/emoji-choose'
-import { useSocketIo } from '../../../shared/hooks/useSocketIo'
+import { EmojiChoose } from '@features/emoji-choose'
+import { useSocketIo } from '@shared/hooks'
 
 export const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',

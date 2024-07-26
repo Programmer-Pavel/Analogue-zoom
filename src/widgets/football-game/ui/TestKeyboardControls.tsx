@@ -1,10 +1,10 @@
-import React from 'react'
 import { KeyboardControls, useAnimations, useGLTF } from '@react-three/drei'
 import Ecctrl from 'ecctrl'
+import { useRef } from 'react'
 import type * as THREE from 'three'
 
 export function TestKeyboardControls() {
-  const group = React.useRef<THREE.Group>()
+  const group = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF('/assets/3d-models/goalkeeperDropKick-transformed.glb')
   const { actions } = useAnimations(animations, group)
 

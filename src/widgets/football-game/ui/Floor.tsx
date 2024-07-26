@@ -1,6 +1,5 @@
 import { useTexture } from '@react-three/drei'
 import { RigidBody } from '@react-three/rapier'
-import React from 'react'
 import * as THREE from 'three'
 // @ts-expect-error fix
 import floorTexture from '../../../../assets/images.png'

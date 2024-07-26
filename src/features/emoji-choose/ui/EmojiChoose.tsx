@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import IconButton from '@mui/material/IconButton'
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions'
 import emojiData from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import { styled } from '@mui/material/styles'
-import { useOnClickOutside } from '../../../shared/hooks/useOnClickOutside'
+import { useOnClickOutside } from '@shared/hooks'
 
 const EmojiChooseWrapper = styled('div')({
   position: 'relative',

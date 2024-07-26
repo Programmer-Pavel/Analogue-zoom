@@ -1,8 +1,7 @@
-import * as React from 'react'
 import { Outlet } from 'react-router-dom'
 import Box from '@mui/material/Box'
-import { Header } from '../../../widgets/layout-header'
-import { MenuDrawer } from '../../../widgets/menu-drawer'
+import { MenuDrawer } from '@widgets/menu-drawer'
+import { Header } from '@widgets/layout-header'
 
 export function Layout() {
   return (
