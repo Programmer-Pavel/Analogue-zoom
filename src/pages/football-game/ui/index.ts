@@ -1,0 +1,1 @@
+export { FootballGamePage } from './FootballGamePage'
