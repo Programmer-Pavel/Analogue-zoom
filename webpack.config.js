@@ -17,7 +17,7 @@ const __dirname = dirname(__filename)
 const devMode = process.env.NODE_ENV !== 'production'
 
 const config = {
-  entry: ['@babel/polyfill', './src/app/index.tsx'], // Точка входа для сборки проекта
+  entry: ['./src/app/index.tsx'], // Точка входа для сборки проекта
 
   output: {
     filename: devMode ? '[name].js' : '[name].[contenthash].js', // Имя выходного файла сборки
